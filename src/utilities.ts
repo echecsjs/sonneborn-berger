@@ -53,7 +53,8 @@ function isTerminalBye(
   rounds: CompletedRound[],
   roundIndex: number,
 ): boolean {
-  for (const round of rounds.slice(roundIndex + 1)) {
+  const remainingRounds = rounds.slice(roundIndex + 1);
+  for (const round of remainingRounds) {
     const bye = byeForPlayer(player, round);
     if (bye !== undefined) {
       if (!isByeVUR(bye)) {
@@ -61,13 +62,14 @@ function isTerminalBye(
       }
       continue;
     }
-    for (const g of round.games) {
-      if (
-        (g.white === player || g.black === player) &&
-        !isForfeitVUR(player, g)
-      ) {
-        return false;
-      }
+    if (
+      round.games.some(
+        (g) =>
+          (g.white === player || g.black === player) &&
+          !isForfeitVUR(player, g),
+      )
+    ) {
+      return false;
     }
   }
   return true;
@@ -105,10 +107,10 @@ function adjustedScore(player: string, rounds: CompletedRound[]): number {
       }
       continue;
     }
-    for (const g of round.games) {
-      if (g.white !== player && g.black !== player) {
-        continue;
-      }
+    const playerGames = round.games.filter(
+      (g) => g.white === player || g.black === player,
+    );
+    for (const g of playerGames) {
       sum += scoreFor(player, g);
     }
   }
@@ -154,11 +156,10 @@ function contributions(
       continue;
     }
 
-    for (const g of round.games) {
-      if (g.white !== player && g.black !== player) {
-        continue;
-      }
-
+    const playerGames = round.games.filter(
+      (g) => g.white === player || g.black === player,
+    );
+    for (const g of playerGames) {
       const playerResult = scoreFor(player, g);
 
       if (g.forfeit === undefined) {
