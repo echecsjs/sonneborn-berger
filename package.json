@@ -40,6 +40,10 @@
     "./cut1": {
       "import": "./dist/cut1.js",
       "types": "./dist/cut1.d.ts"
+    },
+    "./cut2": {
+      "import": "./dist/cut2.js",
+      "types": "./dist/cut2.d.ts"
     }
   },
   "files": [

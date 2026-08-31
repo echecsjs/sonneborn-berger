@@ -132,6 +132,34 @@ function dummyScoreForForfeit(
   return Math.min(playerOwnScore, adjustedScore(opponent, rounds));
 }
 
+function cutLeastSignificant(items: Contribution[]): Contribution[] {
+  if (items.length === 0) {
+    return [...items];
+  }
+  let leastSignificant: Contribution = items[0] as Contribution;
+  for (const c of items) {
+    if (
+      c.opponentScore < leastSignificant.opponentScore ||
+      (c.opponentScore === leastSignificant.opponentScore &&
+        c.value < leastSignificant.value)
+    ) {
+      leastSignificant = c;
+    }
+  }
+  let lowestVUR: Contribution | undefined;
+  for (const c of items) {
+    if (c.isVUR && (lowestVUR === undefined || c.value < lowestVUR.value)) {
+      lowestVUR = c;
+    }
+  }
+  const toCut =
+    lowestVUR !== undefined && lowestVUR.value >= leastSignificant.value
+      ? lowestVUR
+      : leastSignificant;
+  const cutIndex = items.indexOf(toCut);
+  return items.filter((_, index) => index !== cutIndex);
+}
+
 function contributions(
   player: string,
   rounds: CompletedRound[],
@@ -186,6 +214,7 @@ function contributions(
 
 export {
   adjustedScore,
+  cutLeastSignificant,
   contributions,
   dummyScoreForBye,
   dummyScoreForForfeit,

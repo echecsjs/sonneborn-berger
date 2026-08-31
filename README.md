@@ -83,6 +83,28 @@ value before summing. Returns `0` when no games have been played.
 
 `tiebreak` is an alias for `sonnebornBergerCut1`.
 
+### `/cut2` subpath export (`@echecs/sonneborn-berger/cut2`)
+
+```typescript
+import { sonnebornBergerCut2, tiebreak } from '@echecs/sonneborn-berger/cut2';
+import type {
+  Game,
+  GameKind,
+  Player,
+  Result,
+} from '@echecs/sonneborn-berger/cut2';
+```
+
+#### `sonnebornBergerCut2(player, games)`
+
+**FIDE section 9.1** — Sonneborn-Berger minus the two lowest-contributing
+opponents (FIDE C.07 9.1 + 14.2). Computes all per-opponent contributions and
+removes the two with the smallest values before summing, reapplying the
+Cut-Exception (FIDE 16.5.2) at each cut so VUR contributions are prioritised for
+removal. Returns `0` when no games have been played.
+
+`tiebreak` is an alias for `sonnebornBergerCut2`.
+
 ## License
 
 MIT
