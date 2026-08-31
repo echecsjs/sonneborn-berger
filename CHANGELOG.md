@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.0] - 2026-08-30
+
+### Added
+
+- `@echecs/sonneborn-berger/cut2` — Sonneborn-Berger Cut-2 (FIDE C.07 9.1 +
+  14.2, with 16.5.2 Cut-Exception reapplication)
+
 ## [3.0.2] - 2026-04-17
 
 ### Fixed
