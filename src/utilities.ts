@@ -36,15 +36,11 @@ function isByeVUR(bye: Bye): boolean {
 }
 
 function isForfeitVUR(player: string, game: Game): boolean {
-  if (game.forfeit === undefined) {
-    return false;
-  }
-  if (game.forfeit === 'both') {
-    return true;
-  }
   return (
-    (game.forfeit === 'white' && game.white === player) ||
-    (game.forfeit === 'black' && game.black === player)
+    game.forfeit !== undefined &&
+    (game.forfeit === 'both' ||
+      (game.forfeit === 'white' && game.white === player) ||
+      (game.forfeit === 'black' && game.black === player))
   );
 }
 
